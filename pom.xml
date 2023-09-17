@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.xzit</groupId>
+  <artifactId>mvn_web</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>mvn_web Maven Webapp</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <jdbc.username>root</jdbc.username><!--自定义属性变量，方便其他地方引用-->
+    <tester.name>ht</tester.name>
+  </properties>
+
+  <dependencies>
+    <dependency><!--从私服上下载依赖-->
+      <groupId>taglibs.standard</groupId>
+      <artifactId>jstlel</artifactId>
+      <version>1.2.5</version>
+    </dependency>
+    <dependency><!--配置测试单元依赖-->
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>javax.servlet.jsp-api</artifactId>
+      <version>2.3.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.29</version>
+      <scope>runtime</scope>
+      <exclusions><!--排除依赖-->
+        <exclusion>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+  <distributionManagement><!--配置上传服务器地址-->
+    <repository>
+      <id>maven-public</id><!--setting.xml中server配置的id-->
+      <layout>http://localhost:8081/repository/my-release/</layout><!--上传到的服务器地址-->
+    </repository>
+    <snapshotRepository>
+      <id>maven-public</id><!--setting.xml中server配置的id-->
+      <layout>http://localhost:8081/repository/my-snapshot/</layout><!--上传到的快照服务器地址-->
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <!--<pluginManagement>-->
+    <plugins>
+      <plugin><!--配置tomcat插件-->
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <port>9090</port><!--配置页面访问端口-->
+          <path>/</path><!--配置页面访问路径-->
+        </configuration>
+      </plugin>
+    </plugins>
+    <!--</pluginManagement>-->
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+      <resource><!--配置资源文件-->
+        <directory>src/main/java</directory><!--包含配置文件的目录-->
+        <includes><!--仅配置xml与properties文件-->
+          <include>**/*.xml</include><!--**表示任意目录，*表示任意文件-->
+          <include>**/*.properties</include>
+        </includes>
+        <filtering>true</filtering><!--资源文件中是否允许进行属性引用-->
+      </resource>
+    </resources>
+  </build>
+  <!--<build>
+    <finalName>mvn_web</finalName>
+    <pluginManagement>&lt;!&ndash; lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) &ndash;&gt;
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        &lt;!&ndash; see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging &ndash;&gt;
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>-->
+</project>
